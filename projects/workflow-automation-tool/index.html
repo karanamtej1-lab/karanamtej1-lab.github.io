@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://karanamtej1-lab.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://karanamtej1-lab.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://karanamtej1-lab.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://karanamtej1-lab.github.io/android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://karanamtej1-lab.github.io/apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    Workflow Automation Tool | Tej Karanam
+    
+</title>
+
+<link rel="canonical" href="https://karanamtej1-lab.github.io/projects/workflow-automation-tool/"/>
+
+<meta property="og:url" content="https://karanamtej1-lab.github.io/projects/workflow-automation-tool/">
+  <meta property="og:site_name" content="Tej Karanam">
+  <meta property="og:title" content="Workflow Automation Tool">
+  <meta property="og:description" content="Glue code, promoted: a tool that chains the repetitive steps I kept doing by hand.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="projects">
+    <meta property="article:published_time" content="2026-01-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-01-20T00:00:00+00:00">
+    <meta property="article:tag" content="Python">
+    <meta property="article:tag" content="Automation">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://karanamtej1-lab.github.io/">Tej Karanam</a>
+    </h1>
+
+    <div class="header-menu">
+        
+
+        
+        
+
+        <p
+            class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/projects" >
+                /projects
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+<div class="breadcrumbs"><a href="/">home</a><span class="breadcrumbs-separator">/</span><a href="/projects/">Projects</a><span class="breadcrumbs-separator">/</span>
+        <a href="/projects/workflow-automation-tool/">Workflow Automation Tool</a></div>
+
+
+<div>
+  <article>
+    <header class="single-intro-container">
+      <h1 class="single-title">Workflow Automation Tool</h1>
+      <p class="single-summary">Glue code, promoted: a tool that chains the repetitive steps I kept doing by hand.</p>
+      <div class="single-subsummary">
+        <div>
+          <p class="single-date">
+            <time datetime="2026-01-20T00:00:00&#43;00:00">20 January 2026</time>
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <div class="single-content">
+      <h2 class="heading" id="overview">
+  Overview
+  <a class="anchor" href="#overview">#</a>
+</h2>
+<p>Started as three scripts and a cron job; became a small tool that chains
+repetitive steps — fetch, transform, notify — into declarative workflows,
+so I stop doing them by hand every time something changes.</p>
+<h2 class="heading" id="the-problem">
+  The problem
+  <a class="anchor" href="#the-problem">#</a>
+</h2>
+<p>Every one of the three original scripts had slightly different logging,
+slightly different failure handling, and zero shared history. When one
+silently stopped working, I found out days later. The scripts weren&rsquo;t the
+problem — the lack of a shared, observable way to run them was.</p>
+<h2 class="heading" id="approach">
+  Approach
+  <a class="anchor" href="#approach">#</a>
+</h2>
+<ul>
+<li>Workflows are defined declaratively in YAML: a list of steps, each a
+fetch/transform/notify action, run in order.</li>
+<li>Every run is logged with what ran, when, and the outcome of each step —
+not just a final success/failure, so a partial failure is diagnosable
+without re-running anything.</li>
+<li>Failures notify explicitly rather than failing silently into a log file
+nobody reads.</li>
+</ul>
+<h2 class="heading" id="challenges--lessons">
+  Challenges &amp; lessons
+  <a class="anchor" href="#challenges--lessons">#</a>
+</h2>
+<p>Automation you can&rsquo;t observe is automation you can&rsquo;t trust. The interesting
+work here wasn&rsquo;t chaining the steps together — that part&rsquo;s easy — it was
+building the &ldquo;what ran, when, and why&rdquo; view, which ended up being about half
+the actual project. A workflow that fails and tells you exactly which step
+and why is worth more than a workflow that rarely fails but goes silent when
+it does.</p>
+<h2 class="heading" id="status">
+  Status
+  <a class="anchor" href="#status">#</a>
+</h2>
+<p>Personal project, in everyday use for my own recurring tasks.</p>
+
+    </div>
+
+    
+    <div class="project-stack">
+      <span class="project-stack-label">Stack</span>
+      <ul class="stack-tags">
+        <li>Python</li>
+        <li>YAML workflow specs</li>
+        <li>Run-history store</li>
+      </ul>
+    </div>
+
+    
+  </article>
+
+  
+  
+
+<div class="single-pagination">
+    <hr />
+
+    <div class="flexnowrap">
+
+        <div class="single-pagination-prev">
+            
+        </div>
+
+        <div class="single-pagination-next">
+            
+            <div class="single-pagination-container-next">
+                <div class="single-pagination-text">
+                    <a href="/projects/automated-trading-system/">
+                        Automated Trading System
+                    </a>
+                </div>
+                <div class="single-pagination-text">→</div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <hr />
+</div>
+
+
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">back to top</a>
+  </div>
+  
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script defer src="/js/copy-code.js"></script>
+</html>

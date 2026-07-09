@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en-us"
+  dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+<link rel="icon" type="image/ico" href="https://karanamtej1-lab.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://karanamtej1-lab.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://karanamtej1-lab.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://karanamtej1-lab.github.io/android-chrome-192x192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://karanamtej1-lab.github.io/apple-touch-icon.png">
+
+<meta name="description" content=""/>
+
+
+
+<title>
+    
+    The Motiq bug that only happened when you weren&#39;t looking | Tej Karanam
+    
+</title>
+
+<link rel="canonical" href="https://karanamtej1-lab.github.io/posts/motiq-hidden-tab-bug/"/>
+
+<meta property="og:url" content="https://karanamtej1-lab.github.io/posts/motiq-hidden-tab-bug/">
+  <meta property="og:site_name" content="Tej Karanam">
+  <meta property="og:title" content="The Motiq bug that only happened when you weren&#39;t looking">
+  <meta property="og:description" content="Focus timers kept drifting — but only for some users, and never while I was debugging. The culprit: hidden tabs.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2026-06-20T00:00:00+00:00">
+    <meta property="article:tag" content="Debugging">
+    <meta property="article:tag" content="Javascript">
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css" media="all">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+</head>
+
+
+
+<body class="auto">
+
+  <div class="content">
+    <header>
+      
+
+<div class="header">
+
+    
+
+    <h1 class="header-title">
+        <a href="https://karanamtej1-lab.github.io/">Tej Karanam</a>
+    </h1>
+
+    <div class="header-menu">
+        
+
+        
+        
+
+        <p
+            class="small ">
+            <a href="/about" >
+                /about
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/projects" >
+                /projects
+            </a>
+        </p>
+        
+
+        <p
+            class="small ">
+            <a href="/posts" >
+                /posts
+            </a>
+        </p>
+        
+        
+    </div>
+
+    
+
+</div>
+
+    </header>
+
+    <main class="main">
+      
+
+
+
+
+<div class="breadcrumbs"><a href="/">home</a><span class="breadcrumbs-separator">/</span><a href="/posts/">Posts</a><span class="breadcrumbs-separator">/</span>
+        <a href="/posts/motiq-hidden-tab-bug/">The Motiq bug that only happened when you weren&#39;t looking</a></div>
+
+
+<div >
+  <article>
+    <header class="single-intro-container">
+        
+        <h1 class="single-title">The Motiq bug that only happened when you weren&#39;t looking</h1>
+        <p class="single-summary">Focus timers kept drifting — but only for some users, and never while I was debugging. The culprit: hidden tabs.</p>
+        
+        <div class="single-subsummary">
+          
+          <div>
+            
+            <p class="single-date">
+              <time datetime="2026-06-20T00:00:00&#43;00:00">20 June 2026</time>
+            </p>
+          </div>
+        </div>
+        
+    </header>
+    
+    <div class="single-content">
+      <p>Motiq&rsquo;s focus timer had a bug I couldn&rsquo;t reproduce for a week: sessions were
+ending late — sometimes <em>minutes</em> late — but only for some users, and never,
+ever, while I was watching it.</p>
+<p>That last detail turned out to be the whole bug.</p>
+<h2 class="heading" id="the-setup">
+  The setup
+  <a class="anchor" href="#the-setup">#</a>
+</h2>
+<p>The timer UI updated with <code>requestAnimationFrame</code>, and the session countdown
+used chained <code>setTimeout</code> ticks. Clean, smooth, worked perfectly in every
+test. But my tests all had one thing in common: the tab was <strong>in front of
+me</strong>.</p>
+<h2 class="heading" id="what-browsers-do-behind-your-back">
+  What browsers do behind your back
+  <a class="anchor" href="#what-browsers-do-behind-your-back">#</a>
+</h2>
+<p>When a tab is hidden, browsers get aggressive about saving battery:</p>
+<ul>
+<li><code>requestAnimationFrame</code> <strong>stops firing entirely</strong> — it&rsquo;s tied to paint,
+and hidden tabs don&rsquo;t paint.</li>
+<li><code>setTimeout</code> / <code>setInterval</code> get <strong>throttled</strong> — to once per second at
+first, and much less than that for deeper background states.</li>
+</ul>
+<p>So the moment a user switched tabs mid-session, my &ldquo;one tick per second&rdquo;
+countdown quietly became &ldquo;one tick whenever the browser felt like it.&rdquo; The
+UI froze (invisibly — nobody&rsquo;s looking at a hidden tab), and the drift
+accumulated until they came back.</p>
+<h2 class="heading" id="the-fix">
+  The fix
+  <a class="anchor" href="#the-fix">#</a>
+</h2>
+<p>Two changes, both boring, both things I now do by default:</p>
+<ol>
+<li><strong>Never count elapsed time by counting ticks.</strong> Store the session&rsquo;s end
+timestamp once, and on every tick compute <code>remaining = endTime - Date.now()</code>.
+Ticks can be throttled; the wall clock can&rsquo;t.</li>
+<li><strong>Reconcile on visibility change.</strong> A <code>visibilitychange</code> listener
+recomputes state the instant the tab comes back, so the UI is correct on
+the very first visible frame — no waiting for the next tick.</li>
+</ol>
+<h2 class="heading" id="the-lesson">
+  The lesson
+  <a class="anchor" href="#the-lesson">#</a>
+</h2>
+<p>If your code depends on callbacks firing on schedule, the browser considers
+that a suggestion, not a contract. Anything time-critical needs to be
+anchored to timestamps, and anything visual needs a &ldquo;you just came back&rdquo;
+path. Bugs that hide when observed aren&rsquo;t spooky — they&rsquo;re usually just
+<code>document.hidden === true</code>.</p>
+
+    </div>
+  </article>
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+  <div class="back-to-top">
+    <a href="#top">
+      back to top
+    </a>
+  </div>
+  
+
+</div>
+
+
+    </main>
+  </div>
+
+  
+  
+
+
+
+
+
+    
+
+
+
+
+  <footer>
+    
+
+    
+    
+
+
+
+
+
+    
+
+
+
+
+    
+    <p>Powered by
+        <a href="https://gohugo.io/">Hugo</a>
+        and
+        <a href="https://github.com/tomfran/typo">tomfran/typo</a>
+    </p>
+    
+    
+    
+
+
+  </footer>
+
+  
+</body>
+
+<script defer src="/js/copy-code.js"></script>
+</html>

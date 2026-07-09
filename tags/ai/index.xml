@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Ai on Tej Karanam</title>
+		<link>https://karanamtej1-lab.github.io/tags/ai/</link>
+		<description>Recent content in Ai on Tej Karanam</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 02 Jul 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://karanamtej1-lab.github.io/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Used-Car Inspector</title>
+				<link>https://karanamtej1-lab.github.io/projects/used-car-inspector/</link>
+				<pubDate>Thu, 02 Jul 2026 00:00:00 +0000</pubDate>
+				<guid>https://karanamtej1-lab.github.io/projects/used-car-inspector/</guid>
+				<description>An AI condition report for a used car listing — flags with evidence, a price verdict against real comps, and the questions to ask before you buy.</description>
+			</item>
+	</channel>
+</rss>

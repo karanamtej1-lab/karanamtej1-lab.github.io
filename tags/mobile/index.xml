@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Mobile on Tej Karanam</title>
+		<link>https://karanamtej1-lab.github.io/tags/mobile/</link>
+		<description>Recent content in Mobile on Tej Karanam</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Mon, 01 Jun 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://karanamtej1-lab.github.io/tags/mobile/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Recut</title>
+				<link>https://karanamtej1-lab.github.io/projects/recut/</link>
+				<pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
+				<guid>https://karanamtej1-lab.github.io/projects/recut/</guid>
+				<description>A mobile app for remixing viral Instagram/TikTok video templates — browse trending formats, drop in your own clips, export.</description>
+			</item>
+	</channel>
+</rss>

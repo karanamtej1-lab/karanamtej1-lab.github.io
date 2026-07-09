@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Python on Tej Karanam</title>
+		<link>https://karanamtej1-lab.github.io/tags/python/</link>
+		<description>Recent content in Python on Tej Karanam</description>
+		<generator>Hugo</generator>
+		<language>en-us</language>
+		
+		
+		
+		
+			<lastBuildDate>Sun, 10 May 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://karanamtej1-lab.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>Nightwatch</title>
+				<link>https://karanamtej1-lab.github.io/projects/nightwatch/</link>
+				<pubDate>Sun, 10 May 2026 00:00:00 +0000</pubDate>
+				<guid>https://karanamtej1-lab.github.io/projects/nightwatch/</guid>
+				<description>A monitoring tool that watches the things I&amp;rsquo;d otherwise forget to check.</description>
+			</item>
+			<item>
+				<title>Automated Trading System</title>
+				<link>https://karanamtej1-lab.github.io/projects/automated-trading-system/</link>
+				<pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
+				<guid>https://karanamtej1-lab.github.io/projects/automated-trading-system/</guid>
+				<description>Python system that backtests strategies and paper-trades them live.</description>
+			</item>
+			<item>
+				<title>Workflow Automation Tool</title>
+				<link>https://karanamtej1-lab.github.io/projects/workflow-automation-tool/</link>
+				<pubDate>Tue, 20 Jan 2026 00:00:00 +0000</pubDate>
+				<guid>https://karanamtej1-lab.github.io/projects/workflow-automation-tool/</guid>
+				<description>Glue code, promoted: a tool that chains the repetitive steps I kept doing by hand.</description>
+			</item>
+	</channel>
+</rss>
