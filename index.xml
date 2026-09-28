@@ -1,73 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-	<channel>
-		<title>Home on Tej Karanam</title>
-		<link>https://karanamtej1-lab.github.io/</link>
-		<description>Recent content in Home on Tej Karanam</description>
-		<generator>Hugo</generator>
-		<language>en-us</language>
-		
-		
-		
-		
-			<lastBuildDate>Thu, 02 Jul 2026 00:00:00 +0000</lastBuildDate>
-		
-			<atom:link href="https://karanamtej1-lab.github.io/index.xml" rel="self" type="application/rss+xml" />
-			<item>
-				<title>Used-Car Inspector</title>
-				<link>https://karanamtej1-lab.github.io/projects/used-car-inspector/</link>
-				<pubDate>Thu, 02 Jul 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/used-car-inspector/</guid>
-				<description>An AI condition report for a used car listing — flags with evidence, a price verdict against real comps, and the questions to ask before you buy.</description>
-			</item>
-			<item>
-				<title>The Motiq bug that only happened when you weren&#39;t looking</title>
-				<link>https://karanamtej1-lab.github.io/posts/motiq-hidden-tab-bug/</link>
-				<pubDate>Sat, 20 Jun 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/posts/motiq-hidden-tab-bug/</guid>
-				<description>Focus timers kept drifting — but only for some users, and never while I was debugging. The culprit: hidden tabs.</description>
-			</item>
-			<item>
-				<title>Recut</title>
-				<link>https://karanamtej1-lab.github.io/projects/recut/</link>
-				<pubDate>Mon, 01 Jun 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/recut/</guid>
-				<description>A mobile app for remixing viral Instagram/TikTok video templates — browse trending formats, drop in your own clips, export.</description>
-			</item>
-			<item>
-				<title>Nightwatch</title>
-				<link>https://karanamtej1-lab.github.io/projects/nightwatch/</link>
-				<pubDate>Sun, 10 May 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/nightwatch/</guid>
-				<description>A monitoring tool that watches the things I&amp;rsquo;d otherwise forget to check.</description>
-			</item>
-			<item>
-				<title>Motiq</title>
-				<link>https://karanamtej1-lab.github.io/projects/motiq/</link>
-				<pubDate>Thu, 02 Apr 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/motiq/</guid>
-				<description>A focus and productivity app — and the source of my favorite bug so far.</description>
-			</item>
-			<item>
-				<title>Automated Trading System</title>
-				<link>https://karanamtej1-lab.github.io/projects/automated-trading-system/</link>
-				<pubDate>Sun, 15 Feb 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/automated-trading-system/</guid>
-				<description>Python system that backtests strategies and paper-trades them live.</description>
-			</item>
-			<item>
-				<title>Workflow Automation Tool</title>
-				<link>https://karanamtej1-lab.github.io/projects/workflow-automation-tool/</link>
-				<pubDate>Tue, 20 Jan 2026 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/projects/workflow-automation-tool/</guid>
-				<description>Glue code, promoted: a tool that chains the repetitive steps I kept doing by hand.</description>
-			</item>
-			<item>
-				<title>About</title>
-				<link>https://karanamtej1-lab.github.io/about/</link>
-				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>https://karanamtej1-lab.github.io/about/</guid>
-				<description>&lt;p&gt;I&amp;rsquo;m Tej, a junior at Wakeland High School (class of 2027) building toward a&#xA;future in computer science. I like taking a project from &amp;ldquo;wouldn&amp;rsquo;t it be&#xA;cool if&amp;rdquo; all the way to something that actually runs — which usually means&#xA;learning whatever the project demands: Python for trading systems, C++ and&#xA;Java for coursework and fundamentals, and lately a lot of prompt-and-pipeline&#xA;work with AI APIs.&lt;/p&gt;&#xA;&lt;p&gt;Things I&amp;rsquo;ve built recently:&lt;/p&gt;</description>
-			</item>
-	</channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Home on Tej Karanam</title><link>https://karanamtej1-lab.github.io/</link><description>Recent content in Home on Tej Karanam</description><generator>Hugo</generator><language>en-us</language><lastBuildDate>Sun, 27 Sep 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://karanamtej1-lab.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Eco-Sort</title><link>https://karanamtej1-lab.github.io/projects/eco-sort/</link><pubDate>Sun, 27 Sep 2026 00:00:00 +0000</pubDate><guid>https://karanamtej1-lab.github.io/projects/eco-sort/</guid><description>Point a camera at a piece of trash and it tells you Recycling, Compost, or Landfill, live in the browser.</description></item><item><title>nanoGPT from Scratch</title><link>https://karanamtej1-lab.github.io/projects/nanogpt/</link><pubDate>Sat, 11 Jul 2026 00:00:00 +0000</pubDate><guid>https://karanamtej1-lab.github.io/projects/nanogpt/</guid><description>A character-level GPT built from the ground up in PyTorch. A bigram baseline, then the full Transformer, trained to write fake Shakespeare.</description></item><item><title>About</title><link>https://karanamtej1-lab.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://karanamtej1-lab.github.io/about/</guid><description>&lt;p&gt;I&amp;rsquo;m Tej, a junior at Wakeland High School (class of 2027) building toward a
+future in computer science. I like taking a project from &amp;ldquo;wouldn&amp;rsquo;t it be cool
+if&amp;rdquo; to something that actually runs, and learning whatever it demands along
+the way.&lt;/p&gt;
+&lt;p&gt;Things I&amp;rsquo;ve built, all on &lt;a href="https://github.com/karanamtej1-lab"&gt;my GitHub&lt;/a&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://karanamtej1-lab.github.io/projects/eco-sort/"&gt;Eco-Sort&lt;/a&gt;&lt;/strong&gt;: point a camera at trash and it tells
+you Recycling, Compost, or Landfill, live in the browser.
+&lt;a href="https://karanamtej1-lab.github.io/eco-sort/"&gt;Try it&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="https://karanamtej1-lab.github.io/projects/nanogpt/"&gt;nanoGPT from Scratch&lt;/a&gt;&lt;/strong&gt;: a character-level GPT
+written by hand in PyTorch, trained to write fake Shakespeare.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 class="heading" id="outside-of-code"&gt;
+ Outside of code
+ &lt;a class="anchor" href="#outside-of-code"&gt;#&lt;/a&gt;
+&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Boxing &amp;amp; Muay Thai&lt;/strong&gt;: I train striking regularly. It&amp;rsquo;s the one part of my
+day that has nothing to do with a screen, and that&amp;rsquo;s exactly why it keeps me
+sane.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Music&lt;/strong&gt;: always something playing while I work.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reading&lt;/strong&gt;: fiction, plus the occasional technical rabbit hole when a
+project drags me into one.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Food&lt;/strong&gt;: eating good food, and slowly getting better at cooking it.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 class="heading" id="elsewhere"&gt;
+ Elsewhere
+ &lt;a class="anchor" href="#elsewhere"&gt;#&lt;/a&gt;
+&lt;/h2&gt;
+&lt;p&gt;Find me on &lt;a href="https://github.com/karanamtej1-lab"&gt;GitHub&lt;/a&gt; or
+&lt;a href="https://www.linkedin.com/in/tejkaranam"&gt;LinkedIn&lt;/a&gt;.&lt;/p&gt;</description></item></channel></rss>
