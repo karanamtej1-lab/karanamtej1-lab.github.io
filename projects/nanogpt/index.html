@@ -39,8 +39,7 @@ seeing the future, which is what lets the model learn to predict the next
 character instead of copying it. The <code>** -0.5</code> scaling keeps the scores from
 getting so large that softmax collapses onto a single character.</p><h3 class=heading id=step-4-build-the-transformer>Step 4: build the Transformer
 <a class=anchor href=#step-4-build-the-transformer>#</a></h3><p>Then I stacked the pieces:</p><ul><li><strong>Multi-head attention.</strong> Six heads run in parallel, each 64 wide, so
-different heads can track different patterns (one for spelling, one for
-who&rsquo;s speaking, and so on).</li><li><strong>Feed-forward layer.</strong> After attention lets characters talk to each
+each head is free to learn a different pattern in the text.</li><li><strong>Feed-forward layer.</strong> After attention lets characters talk to each
 other, a small two-layer network lets each one think on its own.</li><li><strong>Residual connections and LayerNorm.</strong> Each block adds its output back
 onto its input (<code>x = x + self.sa(self.ln1(x))</code>). That shortcut is what lets
 gradients flow through six stacked blocks without fading out.</li><li><strong>Positional embeddings.</strong> Attention on its own has no idea of order, so
