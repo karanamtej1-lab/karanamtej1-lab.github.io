@@ -1,23 +1,71 @@
 <!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=icon type=image/ico href=https://karanamtej1-lab.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://karanamtej1-lab.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://karanamtej1-lab.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=192x192 href=https://karanamtej1-lab.github.io/android-chrome-192x192.png><link rel=apple-touch-icon sizes=180x180 href=https://karanamtej1-lab.github.io/apple-touch-icon.png><meta name=description content><title>nanoGPT from Scratch | Tej Karanam</title><link rel=canonical href=https://karanamtej1-lab.github.io/projects/nanogpt/><meta property="og:url" content="https://karanamtej1-lab.github.io/projects/nanogpt/"><meta property="og:site_name" content="Tej Karanam"><meta property="og:title" content="nanoGPT from Scratch"><meta property="og:description" content="A character-level GPT built from the ground up in PyTorch. A bigram baseline, then the full Transformer, trained to write fake Shakespeare."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="projects"><meta property="article:published_time" content="2026-07-11T00:00:00+00:00"><meta property="article:modified_time" content="2026-07-11T00:00:00+00:00"><meta property="article:tag" content="Python"><meta property="article:tag" content="Pytorch"><meta property="article:tag" content="Ai"><link rel=stylesheet href=/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css media=all></head><body class=auto><div class=content><header><div class=header><h1 class=header-title><a href=https://karanamtej1-lab.github.io/>Tej Karanam</a></h1><div class=header-menu><p class=small><a href=/about>/about</a></p><p class=small><a href=/projects>/projects</a></p></div></div></header><main class=main><div class=breadcrumbs><a href=/>home</a><span class=breadcrumbs-separator>/</span><a href=/projects/>Projects</a><span class=breadcrumbs-separator>/</span>
-<a href=/projects/nanogpt/>nanoGPT from Scratch</a></div><div><article><header class=single-intro-container><h1 class=single-title>nanoGPT from Scratch</h1><p class=single-summary>A character-level GPT built from the ground up in PyTorch. A bigram baseline, then the full Transformer, trained to write fake Shakespeare.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-07-11T00:00:00+00:00>11 July 2026</time></p></div></div></header><div class=single-content><h2 class=heading id=overview>Overview
-<a class=anchor href=#overview>#</a></h2><p>A GPT built from nothing but tensors. It reads all of Shakespeare one character
-at a time, learns the patterns, and writes new lines that look like the real
-thing. No libraries doing the hard part. Every piece of the Transformer is
-written out by hand.</p><h2 class=heading id=how-it-works>How it works
-<a class=anchor href=#how-it-works>#</a></h2><ul><li>A bigram model comes first. Each character predicts the next from a lookup
-table. It sets up the training loop and the loss, and it writes gibberish.
-That gibberish is the baseline everything else has to beat.</li><li>The full model is a decoder-only Transformer. Masked self-attention lets each
-character look back at the ones before it. Multiple attention heads run in
-parallel, then a feed-forward network does the per-token thinking.</li><li>Blocks stack six deep. Residual connections and layer normalization keep the
-gradients healthy on the way down. Positional embeddings tell the model where
-each character sits, since attention alone has no sense of order.</li><li>Training runs on Apple MPS. Validation loss falls from 2.5 at the bigram
-baseline to roughly 1.48, and the samples turn into readable fake Shakespeare.</li></ul><h2 class=heading id=what-i-learned>What I learned
-<a class=anchor href=#what-i-learned>#</a></h2><p>Attention is a weighted average, and the weights are learned. That one idea
-carries the whole architecture. The scary math is a matrix multiply, a mask so
-the model cannot read the future, and a softmax. Writing it by hand instead of
-importing it is the difference between using a Transformer and understanding
-one.</p><h2 class=heading id=status>Status
-<a class=anchor href=#status>#</a></h2><p>Built and trained. A study project I plan to extend to word-level tokens.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>Python</li><li>PyTorch</li><li>Transformers</li><li>Apple MPS</li></ul></div><div class=project-links><a href=https://github.com/karanamtej1-lab/nanogpt target=_blank rel="noopener noreferrer">Source on GitHub →</a></div></article><div class=single-pagination><hr><div class=flexnowrap><div class=single-pagination-prev></div><div class=single-pagination-next><div class=single-pagination-container-next><div class=single-pagination-text><a href=/projects/eco-sort/>Eco-Sort</a></div><div class=single-pagination-text>→</div></div></div></div><hr></div><div class=back-to-top><a href=#top>back to top</a></div></div></main></div><footer><p>Powered by
+<a href=/projects/nanogpt/>nanoGPT from Scratch</a></div><div><article><header class=single-intro-container><h1 class=single-title>nanoGPT from Scratch</h1><p class=single-summary>A character-level GPT built from the ground up in PyTorch. A bigram baseline, then the full Transformer, trained to write fake Shakespeare.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-07-11T00:00:00+00:00>11 July 2026</time></p></div></div></header><div class=single-content><p><strong><a href=https://github.com/karanamtej1-lab/nanogpt>See the finished code on GitHub →</a></strong>
+Clone it, run <code>python gpt.py</code>, and it trains and writes its own Shakespeare.</p><p><figure><div class=img-container style=--w:2560;--h:1120><img loading=lazy alt="Bigram output next to GPT output" src=/projects/nanogpt/nanogpt-samples.png width=2560 height=1120></div><div class=caption-container><figcaption>Real samples: the bigram baseline (left) and the finished GPT (right)</figcaption></div></figure></p><h2 class=heading id=overview>Overview
+<a class=anchor href=#overview>#</a></h2><p>A GPT built from nothing but tensors. It reads all of Shakespeare one
+character at a time, learns the patterns, and writes new lines that look like
+the real thing. No library does the hard part. Every piece of the Transformer
+is written out by hand in about 200 lines of PyTorch.</p><p>I built it by following Andrej Karpathy&rsquo;s
+<a href="https://www.youtube.com/watch?v=kCc8FmEb1nY">&ldquo;Let&rsquo;s build GPT: from scratch, in code, spelled out.&rdquo;</a>
+I typed every line myself and mapped each idea in the video to where it lives
+in the code.</p><h2 class=heading id=how-i-built-it>How I built it
+<a class=anchor href=#how-i-built-it>#</a></h2><h3 class=heading id=step-1-turn-text-into-numbers>Step 1: turn text into numbers
+<a class=anchor href=#step-1-turn-text-into-numbers>#</a></h3><p>The dataset is tiny-Shakespeare: about 1.1 MB of plays, with 65 unique
+characters. Each character gets an integer ID (<code>stoi</code>), and a reverse table
+(<code>itos</code>) turns IDs back into text. That&rsquo;s the whole tokenizer.</p><p>I split the data 90/10 into training and validation. The model never trains
+on the validation text, so validation loss is the honest score.</p><h3 class=heading id=step-2-the-bigram-baseline-bigrampy>Step 2: the bigram baseline (<code>bigram.py</code>)
+<a class=anchor href=#step-2-the-bigram-baseline-bigrampy>#</a></h3><p>Before building anything clever, I built the dumbest model that could work: a
+lookup table where each character predicts the next one, looking only at the
+character right before it.</p><p>This step matters more than it looks. It sets up everything the real model
+reuses: random batches of text, the cross-entropy loss, the AdamW training
+loop, and <code>generate</code>, which samples one character at a time.</p><p>It trains in about 30 seconds and levels off at a <strong>validation loss of
+2.49</strong>. The left side of the picture above is what that looks like: roughly
+the right letter frequencies, the right line lengths, and nonsense words.
+That&rsquo;s the number the real model has to beat.</p><h3 class=heading id=step-3-self-attention>Step 3: self-attention
+<a class=anchor href=#step-3-self-attention>#</a></h3><p>A bigram model only sees one character back. To write real words, each
+character needs to look at <em>all</em> the characters before it and decide which
+ones matter.</p><p>That&rsquo;s self-attention. Each character produces a <strong>query</strong> (&ldquo;what am I looking
+for?&rdquo;), a <strong>key</strong> (&ldquo;what do I contain?&rdquo;), and a <strong>value</strong> (&ldquo;what I&rsquo;ll pass
+along&rdquo;). A query matched against every key gives a score for each earlier
+character. Here is one attention head from my code:</p><div class=code-block><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+</span></span><span style=display:flex><span>    B, T, C <span style=color:#f92672>=</span> x<span style=color:#f92672>.</span>shape
+</span></span><span style=display:flex><span>    k <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>key(x)
+</span></span><span style=display:flex><span>    q <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>query(x)
+</span></span><span style=display:flex><span>    wei <span style=color:#f92672>=</span> q <span style=color:#f92672>@</span> k<span style=color:#f92672>.</span>transpose(<span style=color:#f92672>-</span><span style=color:#ae81ff>2</span>, <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>*</span> k<span style=color:#f92672>.</span>shape[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>] <span style=color:#f92672>**</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>0.5</span>
+</span></span><span style=display:flex><span>    wei <span style=color:#f92672>=</span> wei<span style=color:#f92672>.</span>masked_fill(self<span style=color:#f92672>.</span>tril[:T, :T] <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>, float(<span style=color:#e6db74>&#39;-inf&#39;</span>))
+</span></span><span style=display:flex><span>    wei <span style=color:#f92672>=</span> F<span style=color:#f92672>.</span>softmax(wei, dim<span style=color:#f92672>=-</span><span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>    v <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>value(x)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span> wei <span style=color:#f92672>@</span> v</span></span></code></pre></div><button class=copy-code-button>copy</button></div><p>The line with <code>tril</code> is the causal mask. It blocks every character from
+seeing the future, which is what lets the model learn to predict the next
+character instead of copying it. The <code>** -0.5</code> scaling keeps the scores from
+getting so large that softmax collapses onto a single character.</p><h3 class=heading id=step-4-build-the-transformer>Step 4: build the Transformer
+<a class=anchor href=#step-4-build-the-transformer>#</a></h3><p>Then I stacked the pieces:</p><ul><li><strong>Multi-head attention.</strong> Six heads run in parallel, each 64 wide, so
+different heads can track different patterns (one for spelling, one for
+who&rsquo;s speaking, and so on).</li><li><strong>Feed-forward layer.</strong> After attention lets characters talk to each
+other, a small two-layer network lets each one think on its own.</li><li><strong>Residual connections and LayerNorm.</strong> Each block adds its output back
+onto its input (<code>x = x + self.sa(self.ln1(x))</code>). That shortcut is what lets
+gradients flow through six stacked blocks without fading out.</li><li><strong>Positional embeddings.</strong> Attention on its own has no idea of order, so
+each position gets a learned vector added to it.</li><li><strong>Dropout (0.2)</strong> to fight overfitting.</li></ul><p>The final model is 6 blocks, 6 heads, 384-dimensional embeddings, and a
+256-character context window: <strong>10.79 million parameters</strong>.</p><h3 class=heading id=step-5-train-it>Step 5: train it
+<a class=anchor href=#step-5-train-it>#</a></h3><p>I trained it for 5,000 steps on my Mac&rsquo;s GPU through Apple&rsquo;s MPS backend. The
+code picks CUDA, then MPS, then CPU automatically. Every 500 steps it
+measures the average loss on both training and validation data.</p><p><figure><div class=img-container style=--w:2000;--h:1120><img loading=lazy alt="Training and validation loss over 5,000 steps" src=/projects/nanogpt/nanogpt-loss.png width=2000 height=1120></div><div class=caption-container><figcaption>Real numbers from my training log</figcaption></div></figure></p><h2 class=heading id=what-the-numbers-taught-me>What the numbers taught me
+<a class=anchor href=#what-the-numbers-taught-me>#</a></h2><ul><li><strong>The Transformer crushed the baseline.</strong> Validation loss went from 2.49
+(bigram) to <strong>1.48</strong>. The right side of the sample image shows the
+difference: real words, character names in the right format, line breaks
+where a play would put them, and even Juliet showing up in a sentence.</li><li><strong>It overfit, and the log proves it.</strong> Validation loss hit its best, 1.48,
+at step 3,000. After that, training loss kept falling (down to 0.86), but
+validation loss rose back to <strong>1.57</strong>. The model had started memorizing the
+training text instead of learning patterns that transfer. The sample above
+comes from the final step-5000 model, so it&rsquo;s slightly worse than the best
+checkpoint would have been.</li><li><strong>The fix is early stopping.</strong> I should save the model whenever
+validation loss hits a new low and keep that checkpoint, not the last one.
+That&rsquo;s the first thing I&rsquo;d change.</li><li><strong>Attention is a weighted average with learned weights.</strong> The math that
+looked scary is a matrix multiply, a mask, and a softmax. Writing it by hand
+instead of importing it is the difference between using a Transformer and
+understanding one.</li></ul><h2 class=heading id=status>Status
+<a class=anchor href=#status>#</a></h2><p>Built and trained. Next: early stopping to keep the best checkpoint, then
+moving from characters to word-piece tokens so it can learn longer-range
+structure.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>Python</li><li>PyTorch 2.8</li><li>Transformers</li><li>Apple MPS</li></ul></div><div class=project-links><a href=https://github.com/karanamtej1-lab/nanogpt target=_blank rel="noopener noreferrer">Source on GitHub →</a></div></article><div class=single-pagination><hr><div class=flexnowrap><div class=single-pagination-prev></div><div class=single-pagination-next><div class=single-pagination-container-next><div class=single-pagination-text><a href=/projects/eco-sort/>Eco-Sort</a></div><div class=single-pagination-text>→</div></div></div></div><hr></div><div class=back-to-top><a href=#top>back to top</a></div></div></main></div><footer><p>Powered by
 <a href=https://gohugo.io/>Hugo</a>
 and
 <a href=https://github.com/tomfran/typo>tomfran/typo</a></p></footer></body><script defer src=/js/copy-code.js></script></html>
