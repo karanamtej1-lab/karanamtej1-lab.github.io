@@ -85,8 +85,7 @@ getting so large that softmax collapses onto a single character.
 Then I stacked the pieces:
 
 - **Multi-head attention.** Six heads run in parallel, each 64 wide, so
-  different heads can track different patterns (one for spelling, one for
-  who's speaking, and so on).
+  each head is free to learn a different pattern in the text.
 - **Feed-forward layer.** After attention lets characters talk to each
   other, a small two-layer network lets each one think on its own.
 - **Residual connections and LayerNorm.** Each block adds its output back
