@@ -1,16 +1,11 @@
 # Experience entries shown on the homepage (newest first).
-# Edit freely — each entry needs: role, org, period, summary.
+# Edit freely. Each entry needs: role, org, period, summary.
 - role: "Independent Developer"
   org: "Personal projects"
-  period: "2024 — Present"
-  summary: "Design and ship my own tools end to end: an AI vehicle-inspection web app, a template-remixing mobile app (Expo + FFmpeg), and an automated trading system in Python."
+  period: "2026 — Present"
+  summary: "Build and ship my own projects end to end: Eco-Sort, an in-browser trash classifier (TensorFlow.js), and a GPT written from scratch in PyTorch."
 
-- role: "Hackathon Builder"
-  org: "CROO Agent Hackathon"
-  period: "2026"
-  summary: "Built a research agent on the CAP SDK — scoping, agent design, and evaluation under deadline."
-
-- role: "Open Source & Coursework"
-  org: "School + online"
+- role: "Coursework"
+  org: "Wakeland High School"
   period: "2023 — Present"
-  summary: "Python, C++, and Java coursework and side projects; comfortable across scripting, data structures, and web fundamentals."
+  summary: "Python, C++, and Java coursework; comfortable across scripting, data structures, and web fundamentals."
