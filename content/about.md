@@ -19,9 +19,8 @@ Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
 
 ## Outside of code
 
-- **Boxing & Muay Thai**: I train striking regularly. It's the one part of my
-  day that has nothing to do with a screen, and that's exactly why it keeps me
-  sane.
+- **Lifting**: I lift regularly. It's the one part of my day that has nothing
+  to do with a screen, and that's exactly why it keeps me sane.
 - **Music**: always something playing while I work.
 - **Reading**: fiction, plus the occasional technical rabbit hole when a
   project drags me into one.
