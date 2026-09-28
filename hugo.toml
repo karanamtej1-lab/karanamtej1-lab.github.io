@@ -23,8 +23,8 @@ reading, listening to music, and eating good food.
 """
 
   # Homepage collection (list of posts under the intro)
-  homeCollection = "posts"
-  homeCollectionTitle = "Posts"
+  homeCollection = "projects"
+  homeCollectionTitle = "Projects"
   paginationSize = 5
 
   # Lists
@@ -40,7 +40,7 @@ reading, listening to music, and eating good food.
 
 [[params.social]]
   name = "github"
-  url = "https://github.com/TejKaranam101"
+  url = "https://github.com/karanamtej1-lab"
 
 [[params.social]]
   name = "linkedin"
@@ -54,7 +54,3 @@ reading, listening to music, and eating good food.
 [[params.menu]]
   name = "projects"
   url = "/projects"
-
-[[params.menu]]
-  name = "posts"
-  url = "/posts"

@@ -5,35 +5,29 @@ hidePagination: true
 ---
 
 I'm Tej, a junior at Wakeland High School (class of 2027) building toward a
-future in computer science. I like taking a project from "wouldn't it be
-cool if" all the way to something that actually runs — which usually means
-learning whatever the project demands: Python for trading systems, C++ and
-Java for coursework and fundamentals, and lately a lot of prompt-and-pipeline
-work with AI APIs.
+future in computer science. I like taking a project from "wouldn't it be cool
+if" to something that actually runs, and learning whatever it demands along
+the way.
 
-Things I've built recently:
+Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
 
-- **An AI vehicle-inspection web app** — upload listing photos of a used car,
-  get condition flags with evidence, a price verdict against comparables, and
-  the questions to ask the seller.
-- **An automated trading system** — Python, backtesting first, live paper
-  trading second, humility throughout.
-- **Motiq** — a productivity app; see [the post about its hidden-tab
-  bug](/posts/motiq-hidden-tab-bug/) for the kind of debugging it taught me.
+- **[Eco-Sort](/projects/eco-sort/)**: point a camera at trash and it tells
+  you Recycling, Compost, or Landfill, live in the browser.
+  [Try it](https://karanamtej1-lab.github.io/eco-sort/).
+- **[nanoGPT from Scratch](/projects/nanogpt/)**: a character-level GPT
+  written by hand in PyTorch, trained to write fake Shakespeare.
 
 ## Outside of code
 
-- **Boxing & Muay Thai** — I train striking regularly; it's the one part of
-  my day that has nothing to do with a screen, and I think that's exactly why
-  it keeps me sane.
-- **Music** — always something playing while I work; discovering new stuff is
-  half the fun.
-- **Reading** — a mix of fiction and the occasional deep technical rabbit
-  hole when a project drags me into one.
-- **Food** — eating good food, and slowly getting better at cooking it
-  myself.
+- **Boxing & Muay Thai**: I train striking regularly. It's the one part of my
+  day that has nothing to do with a screen, and that's exactly why it keeps me
+  sane.
+- **Music**: always something playing while I work.
+- **Reading**: fiction, plus the occasional technical rabbit hole when a
+  project drags me into one.
+- **Food**: eating good food, and slowly getting better at cooking it.
 
 ## Elsewhere
 
-Find me on [GitHub](https://github.com/TejKaranam101) or
-[LinkedIn](https://www.linkedin.com/in/tejkaranam), or reach out by email.
+Find me on [GitHub](https://github.com/karanamtej1-lab) or
+[LinkedIn](https://www.linkedin.com/in/tejkaranam).
