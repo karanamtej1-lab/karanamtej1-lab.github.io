@@ -1,23 +1,70 @@
 <!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=icon type=image/ico href=https://karanamtej1-lab.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://karanamtej1-lab.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://karanamtej1-lab.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=192x192 href=https://karanamtej1-lab.github.io/android-chrome-192x192.png><link rel=apple-touch-icon sizes=180x180 href=https://karanamtej1-lab.github.io/apple-touch-icon.png><meta name=description content><title>Eco-Sort | Tej Karanam</title><link rel=canonical href=https://karanamtej1-lab.github.io/projects/eco-sort/><meta property="og:url" content="https://karanamtej1-lab.github.io/projects/eco-sort/"><meta property="og:site_name" content="Tej Karanam"><meta property="og:title" content="Eco-Sort"><meta property="og:description" content="Point a camera at a piece of trash and it tells you Recycling, Compost, or Landfill, live in the browser."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="projects"><meta property="article:published_time" content="2026-09-27T00:00:00+00:00"><meta property="article:modified_time" content="2026-09-27T00:00:00+00:00"><meta property="article:tag" content="Javascript"><meta property="article:tag" content="Ai"><meta property="article:tag" content="Web"><link rel=stylesheet href=/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css media=all></head><body class=auto><div class=content><header><div class=header><h1 class=header-title><a href=https://karanamtej1-lab.github.io/>Tej Karanam</a></h1><div class=header-menu><p class=small><a href=/about>/about</a></p><p class=small><a href=/projects>/projects</a></p></div></div></header><main class=main><div class=breadcrumbs><a href=/>home</a><span class=breadcrumbs-separator>/</span><a href=/projects/>Projects</a><span class=breadcrumbs-separator>/</span>
-<a href=/projects/eco-sort/>Eco-Sort</a></div><div><article><header class=single-intro-container><h1 class=single-title>Eco-Sort</h1><p class=single-summary>Point a camera at a piece of trash and it tells you Recycling, Compost, or Landfill, live in the browser.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-09-27T00:00:00+00:00>27 September 2026</time></p></div></div></header><div class=single-content><h2 class=heading id=overview>Overview
-<a class=anchor href=#overview>#</a></h2><p>Hold an item up to your phone or laptop camera and Eco-Sort names the bin it
-goes in: Recycling, Compost, or Landfill. It runs entirely on your device. No
-image ever leaves the browser.</p><h2 class=heading id=how-it-works>How it works
-<a class=anchor href=#how-it-works>#</a></h2><ul><li>I trained an image classifier in Google Teachable Machine and load it with
-TensorFlow.js. The first prediction compiles WebGL shaders, so the app runs
-a warm-up pass on a blank canvas at load time. The first real frame is
-instant.</li><li>The camera code and the model code are separate files that talk through two
-events, <code>camera:started</code> and <code>camera:stopped</code>. Neither reaches into the
-other.</li><li>It classifies 8 frames a second, not 60. A label can&rsquo;t change faster than a
-person can read it, so anything more just burns battery.</li><li>Each frame is blended into a moving average. One odd frame can&rsquo;t flip the
-answer, and the label settles in about half a second.</li><li>The model always picks one of three bins, even when the camera sees nothing.
-Below 60% confidence it says &ldquo;Not sure&rdquo; instead of guessing, which is what
-stops an empty desk from reading as Landfill.</li><li>On phones it asks for the rear camera, since you point it at trash, not your
-face.</li></ul><h2 class=heading id=what-i-learned>What I learned
-<a class=anchor href=#what-i-learned>#</a></h2><p>The model was the easy part. Making its output trustworthy took the work:
-smoothing, a confidence floor, and honest error messages for every way a
-camera can fail (blocked, missing, busy, not on HTTPS).</p><h2 class=heading id=status>Status
-<a class=anchor href=#status>#</a></h2><p>Live. Plain HTML, CSS, and JavaScript with no build step.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>JavaScript</li><li>HTML / CSS</li><li>TensorFlow.js</li><li>Teachable Machine</li><li>getUserMedia</li></ul></div><div class=project-links><a href=https://karanamtej1-lab.github.io/eco-sort/ target=_blank rel="noopener noreferrer">Live demo →</a>
+<a href=/projects/eco-sort/>Eco-Sort</a></div><div><article><header class=single-intro-container><h1 class=single-title>Eco-Sort</h1><p class=single-summary>Point a camera at a piece of trash and it tells you Recycling, Compost, or Landfill, live in the browser.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-09-27T00:00:00+00:00>27 September 2026</time></p></div></div></header><div class=single-content><p><strong><a href=https://karanamtej1-lab.github.io/eco-sort/>Try the finished app →</a></strong> It
+works on a phone or a laptop with a camera. Source is on
+<a href=https://github.com/karanamtej1-lab/eco-sort>GitHub</a>.</p><p><figure><div class=img-container style=--w:2560;--h:1800><img loading=lazy alt="Eco-Sort on desktop, before the camera starts" src=/projects/eco-sort/eco-idle.png width=2560 height=1800></div><div class=caption-container><figcaption>The finished app, waiting for the camera</figcaption></div></figure></p><h2 class=heading id=overview>Overview
+<a class=anchor href=#overview>#</a></h2><p>Standing over three bins with a coffee cup in your hand, you usually guess.
+Eco-Sort removes the guess. Hold the item up to your camera and it names the
+bin: <strong>Recycling</strong>, <strong>Compost</strong>, or <strong>Landfill</strong>, with a confidence bar and a
+percentage for every class.</p><p>Everything runs on your own device. The model downloads once, then every
+prediction happens inside the browser. No image is ever uploaded anywhere.</p><h2 class=heading id=the-goals-i-set>The goals I set
+<a class=anchor href=#the-goals-i-set>#</a></h2><ol><li><strong>No install.</strong> A web page, not an app store download.</li><li><strong>No server.</strong> Plain HTML, CSS, and JavaScript on GitHub Pages. Nothing to
+host, nothing to pay for, nothing that can go down.</li><li><strong>Private.</strong> Camera frames never leave the device.</li><li><strong>Honest.</strong> If the model isn&rsquo;t sure, the app says so instead of guessing.</li></ol><h2 class=heading id=how-i-built-it>How I built it
+<a class=anchor href=#how-i-built-it>#</a></h2><p>I split the build into three phases. Each phase ended with something working
+that I could commit, and each one only added JavaScript on top of hooks the
+previous phase left behind.</p><h3 class=heading id=phase-1-the-ui-shell-html-and-css-only>Phase 1: the UI shell (HTML and CSS only)
+<a class=anchor href=#phase-1-the-ui-shell-html-and-css-only>#</a></h3><p>Before touching the camera or the model, I built the whole page as static
+HTML and CSS: the camera frame, the Start button, and the prediction card with
+its legend.</p><p><figure><div class=img-container style=--w:2560;--h:1800><img loading=lazy alt="Phase 1: the static UI shell" src=/projects/eco-sort/eco-phase1.png width=2560 height=1800></div><div class=caption-container><figcaption>Phase 1: layout and styling, no JavaScript yet</figcaption></div></figure></p><p>The key decision here was that the result card&rsquo;s color is driven by a single
+<code>data-state</code> attribute. Setting it to <code>recycling</code>, <code>compost</code>, <code>landfill</code>,
+<code>uncertain</code>, or <code>idle</code> swaps the colors through CSS. That meant Phase 3 would
+never have to touch styling. It only has to set one attribute.</p><p>I also set up a local static server during this phase, because browsers only
+allow camera access over HTTPS or on <code>localhost</code>. Opening the file directly
+from disk would have blocked the camera.</p><h3 class=heading id=phase-2-the-camera>Phase 2: the camera
+<a class=anchor href=#phase-2-the-camera>#</a></h3><p>Next, <code>app.js</code> took over the camera lifecycle: request access, play the stream
+in the <code>&lt;video></code> element, and toggle Start/Stop.</p><p><figure><div class=img-container style=--w:2560;--h:1800><img loading=lazy alt="Phase 2: camera running, no model yet" src=/projects/eco-sort/eco-phase2.png width=2560 height=1800></div><div class=caption-container><figcaption>Phase 2: the camera works, but nothing is classifying yet</figcaption></div></figure></p><p>This screenshot is Phase 2 running in Chrome with its fake test camera. The
+camera works, but the prediction card still says &ldquo;Waiting…&rdquo; because there is
+no model yet.</p><p>Things I handled in this phase:</p><ul><li><strong>Rear camera first.</strong> On a phone you point the camera at trash, not your
+face, so it asks for <code>facingMode: "environment"</code>. Laptops with only a front
+camera fall back to it automatically.</li><li><strong>Mirroring.</strong> Only the front camera is mirrored. Mirroring the rear camera
+would make text on packaging read backwards.</li><li><strong>Every failure gets a plain message.</strong> Camera blocked, no camera found,
+camera busy in another app, page not on HTTPS. Each one shows a specific
+sentence telling you what to do, not a generic error.</li><li><strong>Events, not coupling.</strong> When the camera starts or stops, <code>app.js</code> fires a
+<code>camera:started</code> or <code>camera:stopped</code> event on the page. The classifier
+listens for those events. Neither file reaches into the other, so I could
+build and test the camera without the model existing yet.</li></ul><h3 class=heading id=phase-3-the-model>Phase 3: the model
+<a class=anchor href=#phase-3-the-model>#</a></h3><p>I trained the image classifier in <strong>Google Teachable Machine</strong> with three
+classes (Recycling, Compost, Landfill) and exported it for TensorFlow.js.
+<code>classifier.js</code> loads it from Teachable Machine&rsquo;s hosting and runs it on the
+live camera feed.</p><p>The model gives a probability for each class on every frame. Showing that raw
+number flickered badly, so most of this phase went into making the output
+steady and trustworthy:</p><ul><li><strong>Warm-up pass.</strong> The first prediction compiles WebGL shaders and takes
+about a second. The app runs one throwaway prediction on a blank 224×224
+canvas right after loading, so the first real frame is instant.</li><li><strong>8 predictions a second, not 60.</strong> A label can&rsquo;t change faster than a
+person can read it. Running every frame would just drain the battery. The
+loop also subtracts how long the last prediction took, so it holds a steady
+rate on slow phones.</li><li><strong>Smoothing.</strong> Each new frame is blended into a running average
+(exponential moving average, weight 0.35). One odd frame can&rsquo;t flip the
+label, and it still settles in about half a second when you swap items.</li><li><strong>A confidence floor.</strong> Below 60% the card says <strong>&ldquo;Not sure&rdquo;</strong> and tells you
+to hold the item closer, centered, in good light.</li><li><strong>Stop means stop.</strong> If you stop the camera while a prediction is running,
+the loop checks for that and exits instead of scheduling another frame.</li></ul><p><figure><div class=img-container style=--w:780;--h:1688><img loading=lazy alt="Eco-Sort on a phone-sized screen" src=/projects/eco-sort/eco-mobile.png width=780 height=1688></div><div class=caption-container><figcaption>The same app at phone width</figcaption></div></figure></p><h2 class=heading id=what-broke-and-what-i-learned>What broke, and what I learned
+<a class=anchor href=#what-broke-and-what-i-learned>#</a></h2><p>The most useful screenshot I took while documenting this project is the one
+below, and it shows the model being <strong>wrong</strong>.</p><p><figure><div class=img-container style=--w:2560;--h:1800><img loading=lazy alt="A green test pattern classified as Recycling at 98%" src=/projects/eco-sort/eco-running.png width=2560 height=1800></div><div class=caption-container><figcaption>Chrome&rsquo;s fake camera: a green test pattern, confidently called Recycling</figcaption></div></figure></p><p>That&rsquo;s Chrome&rsquo;s fake test camera: a green screen with a spinning shape. There
+is no trash in it. The model calls it Recycling at 98%.</p><p>The reason is that the model only knows three answers. It was never trained
+on &ldquo;nothing&rdquo; or &ldquo;not trash,&rdquo; so for <em>anything</em> it sees, it has to pick one of
+the three bins, and it can be very confident about it. My 60% confidence floor
+catches blurry and ambiguous frames, but it cannot catch an image the model is
+confidently wrong about.</p><p>What I took from it:</p><ul><li><strong>Confidence is not correctness.</strong> A high percentage only means the model
+prefers one of the options it knows. It says nothing about whether the
+input looks like anything it was trained on.</li><li><strong>The fix is in the data, not the code.</strong> The real fix is a fourth
+&ldquo;Nothing / background&rdquo; class trained on empty scenes. I already prepared the
+code for it: any class that isn&rsquo;t a bin keeps the card neutral and shows
+&ldquo;No item&rdquo; instead of coloring it green.</li><li><strong>Building in phases paid off.</strong> Because the camera and the model only talk
+through two events, I could test the camera alone in Phase 2, and swapping
+in a retrained model later is a one-line URL change.</li></ul><h2 class=heading id=status>Status
+<a class=anchor href=#status>#</a></h2><p>Live at
+<strong><a href=https://karanamtej1-lab.github.io/eco-sort/>karanamtej1-lab.github.io/eco-sort</a></strong>.
+Next step: retrain with a background class and more photos of each bin&rsquo;s
+common items.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>JavaScript</li><li>HTML / CSS</li><li>TensorFlow.js 1.7.4</li><li>Teachable Machine</li><li>getUserMedia</li><li>GitHub Pages</li></ul></div><div class=project-links><a href=https://karanamtej1-lab.github.io/eco-sort/ target=_blank rel="noopener noreferrer">Try the live app →</a>
 <a href=https://github.com/karanamtej1-lab/eco-sort target=_blank rel="noopener noreferrer">Source on GitHub →</a></div></article><div class=single-pagination><hr><div class=flexnowrap><div class=single-pagination-prev><div class=single-pagination-container-prev><div class=single-pagination-text>←</div><div class=single-pagination-text><a href=/projects/nanogpt/>nanoGPT from Scratch</a></div></div></div><div class=single-pagination-next></div></div><hr></div><div class=back-to-top><a href=#top>back to top</a></div></div></main></div><footer><p>Powered by
 <a href=https://gohugo.io/>Hugo</a>
 and
