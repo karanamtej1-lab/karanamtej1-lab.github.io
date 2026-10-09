@@ -14,6 +14,9 @@ Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
 - **[Eco-Sort](/projects/eco-sort/)**: point a camera at trash and it tells
   you Recycling, Compost, or Landfill, live in the browser.
   [Try it](https://karanamtej1-lab.github.io/eco-sort/).
+- **[Recap](/projects/recap/)**: drop in a lecture or meeting and get notes,
+  a quiz, timestamped answers, and vertical highlight clips. The transcript is
+  made in the browser.
 - **[nanoGPT from Scratch](/projects/nanogpt/)**: a character-level GPT
   written by hand in PyTorch, trained to write fake Shakespeare.
 

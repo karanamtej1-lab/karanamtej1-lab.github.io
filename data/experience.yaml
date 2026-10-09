@@ -3,7 +3,7 @@
 - role: "Independent Developer"
   org: "Personal projects"
   period: "2026 — Present"
-  summary: "Build and ship my own projects end to end: Eco-Sort, an in-browser trash classifier (TensorFlow.js), and a GPT written from scratch in PyTorch."
+  summary: "Build and ship my own projects end to end: Recap, a lecture-to-notes-and-clips app with in-browser Whisper (Next.js); Eco-Sort, an in-browser trash classifier (TensorFlow.js); and a GPT written from scratch in PyTorch."
 
 - role: "Coursework"
   org: "Wakeland High School"
