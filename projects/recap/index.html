@@ -1,0 +1,74 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=icon type=image/ico href=https://karanamtej1-lab.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://karanamtej1-lab.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://karanamtej1-lab.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=192x192 href=https://karanamtej1-lab.github.io/android-chrome-192x192.png><link rel=apple-touch-icon sizes=180x180 href=https://karanamtej1-lab.github.io/apple-touch-icon.png><meta name=description content><title>Recap | Tej Karanam</title><link rel=canonical href=https://karanamtej1-lab.github.io/projects/recap/><meta property="og:url" content="https://karanamtej1-lab.github.io/projects/recap/"><meta property="og:site_name" content="Tej Karanam"><meta property="og:title" content="Recap"><meta property="og:description" content="Drop in a lecture or meeting. It writes the notes, quizzes you, answers questions with timestamps, and cuts the best moments into vertical clips. The transcript is made in your browser."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="projects"><meta property="article:published_time" content="2026-10-09T00:00:00+00:00"><meta property="article:modified_time" content="2026-10-09T00:00:00+00:00"><meta property="article:tag" content="Typescript"><meta property="article:tag" content="Ai"><meta property="article:tag" content="Web"><link rel=stylesheet href=/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css media=all></head><body class=auto><div class=content><header><div class=header><h1 class=header-title><a href=https://karanamtej1-lab.github.io/>Tej Karanam</a></h1><div class=header-menu><p class=small><a href=/about>/about</a></p><p class=small><a href=/projects>/projects</a></p></div></div></header><main class=main><div class=breadcrumbs><a href=/>home</a><span class=breadcrumbs-separator>/</span><a href=/projects/>Projects</a><span class=breadcrumbs-separator>/</span>
+<a href=/projects/recap/>Recap</a></div><div><article><header class=single-intro-container><h1 class=single-title>Recap</h1><p class=single-summary>Drop in a lecture or meeting. It writes the notes, quizzes you, answers questions with timestamps, and cuts the best moments into vertical clips. The transcript is made in your browser.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-10-09T00:00:00+00:00>9 October 2026</time></p></div></div></header><div class=single-content><p><strong><a href=https://github.com/karanamtej1-lab/recap>See the code on GitHub →</a></strong> It
+runs locally with <code>npm install && npm run dev</code>, and a built-in sample lecture
+lets you try it in two minutes.</p><p><figure><div class=img-container style=--w:1600;--h:1011><img loading=lazy alt="Recap&rsquo;s start screen" src=/projects/recap/recap-landing.jpg width=1600 height=1011></div><div class=caption-container><figcaption>Upload a file, record live, paste a transcript, or try the sample lecture</figcaption></div></figure></p><h2 class=heading id=overview>Overview
+<a class=anchor href=#overview>#</a></h2><p>You sit through an hour-long lecture once. Then, before the test, you either
+rewatch it or wish you had taken better notes. Recap takes the recording and
+gives you:</p><ul><li><strong>Notes</strong>: a TL;DR, key points with timestamps, notes organized by topic, key
+terms, and any deadlines that were mentioned.</li><li><strong>A quiz</strong> where every answer has a button that jumps to the moment it was taught.</li><li><strong>Ask</strong>: type a question, get an answer with clickable timestamps.</li><li><strong>Clips</strong>: the best 15 to 60 second moments, cut into vertical video with
+word-by-word captions, ready to post.</li></ul><p>The project started from a set of open-source apps I was looking at: a
+screen copilot (cue), a voice dictation app (WhimprFlow), and a video clipper
+(publikclip). Recap combines one idea from each: transcribing on your own
+machine, clips whose scores show their work, and asking questions about what
+you just heard.</p><h2 class=heading id=the-goals-i-set>The goals I set
+<a class=anchor href=#the-goals-i-set>#</a></h2><ol><li><strong>Private by default.</strong> The audio never leaves the computer. Speech-to-text
+runs inside the browser.</li><li><strong>Works with no API key.</strong> AI makes it better, but a missing key, an empty
+balance, or an outage should never mean a blank screen.</li><li><strong>Scores you can check.</strong> A clip score is useless if you can&rsquo;t see why it
+got that number.</li></ol><h2 class=heading id=how-it-works>How it works
+<a class=anchor href=#how-it-works>#</a></h2><h3 class=heading id=transcribing-in-the-browser>Transcribing in the browser
+<a class=anchor href=#transcribing-in-the-browser>#</a></h3><p>The file is decoded to 16 kHz mono audio with the Web Audio API. It then goes
+to a Web Worker that runs OpenAI&rsquo;s Whisper model through <strong>transformers.js</strong>,
+on the GPU (WebGPU) if there is one and on the CPU (WebAssembly) if not. The
+audio is fed in 30-second windows, so the progress bar is real and words show
+up on screen as they&rsquo;re recognized.</p><p><figure><div class=img-container style=--w:1600;--h:1011><img loading=lazy alt="Transcribing on-device, with words streaming in" src=/projects/recap/recap-transcribing.jpg width=1600 height=1011></div><div class=caption-container><figcaption>Whisper running on the GPU, words streaming in live</figcaption></div></figure></p><p>Each word comes back with its own timestamp. I group words into sentences
+(splitting on punctuation and on pauses over a second). Those sentences are
+what the notes, search, and AI work from.</p><h3 class=heading id=writing-the-recap>Writing the recap
+<a class=anchor href=#writing-the-recap>#</a></h3><p>The timestamped transcript goes to a server route that tries <strong>Claude</strong>, then
+<strong>Gemini</strong>, then the <strong>publik API</strong>, depending on which key is set. If none is
+set, or the call fails, an offline analyzer I wrote takes over. It&rsquo;s plain text
+statistics: keyword density, cue phrases like &ldquo;the key is&rdquo; or &ldquo;is due on&rdquo;, and
+two-word phrases that repeat. Repeated pairs like &ldquo;spacing effect&rdquo; and
+&ldquo;retrieval practice&rdquo; turned out to find the key terms far better than single
+words, which kept surfacing junk like &ldquo;three&rdquo; and &ldquo;remember&rdquo;.</p><p><figure><div class=img-container style=--w:1600;--h:1011><img loading=lazy alt="The finished recap: player, chapters, transcript, notes" src=/projects/recap/recap-notes.jpg width=1600 height=1011></div><div class=caption-container><figcaption>Click any timestamp and the video jumps there</figcaption></div></figure></p><p>I don&rsquo;t trust the model&rsquo;s numbers. Every timestamp it returns is snapped onto
+a real sentence in the transcript. Clips with impossible ranges are thrown
+out, and quiz questions whose answer index points nowhere are dropped. I
+tested this by pointing the app at a fake AI server that returned deliberately
+broken answers.</p><h3 class=heading id=scoring-and-cutting-clips>Scoring and cutting clips
+<a class=anchor href=#scoring-and-cutting-clips>#</a></h3><p>Each candidate clip gets four scores from 0 to 10: <strong>hook</strong> (would the first
+line stop a scroll), <strong>insight</strong>, <strong>standalone</strong> (does it make sense without
+the rest of the talk), and <strong>energy</strong>. The overall score is a weighted sum
+that my code calculates, never a number the model makes up, so every point
+traces back to a bar on screen.</p><p><figure><div class=img-container style=--w:1600;--h:1011><img loading=lazy alt="A scored clip with its breakdown and the 9:16 preview" src=/projects/recap/recap-clips.jpg width=1600 height=1011></div><div class=caption-container><figcaption>Four visible sub-scores, a reason, and the live vertical preview with captions</figcaption></div></figure></p><p>The vertical video is drawn on a 720×1280 canvas. A hidden video element
+plays the clip, and every frame I draw the picture, a hook card on top, and the
+caption with the current word highlighted. &ldquo;Fit&rdquo; mode keeps the whole frame
+over a blurred copy of itself so slides stay readable. &ldquo;Fill&rdquo; crops to the
+center for a talking head. <code>MediaRecorder</code> records the canvas plus the audio
+and saves an MP4. Nothing gets uploaded.</p><p><figure><div class=img-container style=--w:1600;--h:1011><img loading=lazy alt="The quiz, with each answer linked to the lecture" src=/projects/recap/recap-quiz.jpg width=1600 height=1011></div><div class=caption-container><figcaption>Wrong or right, the explanation links to the exact moment</figcaption></div></figure></p><h2 class=heading id=what-broke-and-what-i-learned>What broke, and what I learned
+<a class=anchor href=#what-broke-and-what-i-learned>#</a></h2><p><strong>Timestamps drifting up to 16 seconds.</strong> On my first sample video, every
+section&rsquo;s timestamps came out earlier than the last, a few seconds more each
+time. I blamed Whisper&rsquo;s word timing and switched to phrase timing. The drift
+didn&rsquo;t change, which proved me wrong. The real cause was the sample file: I
+had joined the audio pieces in a way that left gaps between them. The video
+player plays those gaps as silence, but the browser&rsquo;s audio decoder skips
+them, so the decoded audio was 16 seconds shorter than the video. After I
+rebuilt the sample with continuous audio, I measured both timing modes against
+the real section boundaries. Word timing was within 0.4 seconds, so I went
+back to it. Lesson: when a fix doesn&rsquo;t change the symptom, the diagnosis is
+wrong.</p><p><strong>The library that wouldn&rsquo;t bundle.</strong> transformers.js ships parts of its
+runtime that Next.js couldn&rsquo;t build. The fix was to load it from a CDN inside
+the worker at runtime instead of bundling it, which also made the page lighter.</p><p><strong>The styles that vanished.</strong> At one point the app loaded with no styling at
+all. Tailwind finds its source files relative to the folder the server is
+started from, not the folder its config file is in. Starting the server from a
+different folder quietly produced an empty stylesheet. Using absolute paths
+fixed it for good.</p><p><strong>Speech recognition isn&rsquo;t perfect.</strong> In the screenshots above, the small
+Whisper model heard &ldquo;forgetting curve&rdquo; as &ldquo;forgetting curd&rdquo; and &ldquo;1880s&rdquo; as
+&ldquo;the 18th In 1980s&rdquo;. The bigger &ldquo;Accurate&rdquo; model makes fewer mistakes like
+that, but it&rsquo;s twice the download.</p><h2 class=heading id=status>Status
+<a class=anchor href=#status>#</a></h2><p>Working locally, source on
+<strong><a href=https://github.com/karanamtej1-lab/recap>GitHub</a></strong>. The screenshots show the
+offline engine. The Claude, Gemini, and publik providers are built in and turn
+on when you add a key. Next step: deploy it, and send long lectures to the AI
+in chunks so the cost doesn&rsquo;t grow with every extra minute of recording.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>TypeScript</li><li>Next.js 14</li><li>React</li><li>Tailwind CSS</li><li>Whisper (transformers.js)</li><li>WebGPU / WASM</li><li>Canvas + MediaRecorder</li><li>Claude / Gemini / publik API</li></ul></div><div class=project-links><a href=https://github.com/karanamtej1-lab/recap target=_blank rel="noopener noreferrer">Source on GitHub →</a></div></article><div class=single-pagination><hr><div class=flexnowrap><div class=single-pagination-prev><div class=single-pagination-container-prev><div class=single-pagination-text>←</div><div class=single-pagination-text><a href=/projects/eco-sort/>Eco-Sort</a></div></div></div><div class=single-pagination-next></div></div><hr></div><div class=back-to-top><a href=#top>back to top</a></div></div></main></div><footer><p>Powered by
+<a href=https://gohugo.io/>Hugo</a>
+and
+<a href=https://github.com/tomfran/typo>tomfran/typo</a></p></footer></body><script defer src=/js/copy-code.js></script></html>
