@@ -15,8 +15,8 @@ Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
   you Recycling, Compost, or Landfill, live in the browser.
   [Try it](https://karanamtej1-lab.github.io/eco-sort/).
 - **[Recap](/projects/recap/)**: drop in a lecture or meeting and get notes,
-  a quiz, timestamped answers, and vertical highlight clips. The transcript is
-  made in the browser.
+  a quiz, spaced-review flashcards, timestamped answers, and vertical clips,
+  all in the browser. [Try it](https://karanamtej1-lab.github.io/recap/).
 - **[Food Calorie Detection](/projects/food-calorie-detection/)**: a desktop
   app that finds food in a photo with YOLO and estimates the calories.
 - **[nanoGPT from Scratch](/projects/nanogpt/)**: a character-level GPT

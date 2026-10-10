@@ -1,17 +1,19 @@
 ---
 title: "Recap"
 date: 2026-10-09
-summary: "Drop in a lecture or meeting. It writes the notes, quizzes you, answers questions with timestamps, and cuts the best moments into vertical clips. The transcript is made in your browser."
+summary: "Drop in a lecture or meeting. It writes the notes, quizzes you, makes spaced-review flashcards, answers questions with timestamps, and cuts the best moments into vertical clips, all inside your browser."
 tags: ["typescript", "ai", "web"]
-stack: ["TypeScript", "Next.js 14", "React", "Tailwind CSS", "Whisper (transformers.js)", "WebGPU / WASM", "Canvas + MediaRecorder", "Claude / Gemini / publik API"]
+stack: ["TypeScript", "Next.js 14 (static export)", "React", "Tailwind CSS", "Whisper (transformers.js)", "WebGPU / WASM", "IndexedDB", "Canvas + MediaRecorder", "Claude / Gemini API", "GitHub Pages"]
 links:
+  - name: "Try the live app"
+    url: "https://karanamtej1-lab.github.io/recap/"
   - name: "Source on GitHub"
     url: "https://github.com/karanamtej1-lab/recap"
 ---
 
-**[See the code on GitHub →](https://github.com/karanamtej1-lab/recap)** It
-runs locally with `npm install && npm run dev`, and a built-in sample lecture
-lets you try it in two minutes.
+**[Try the finished app →](https://karanamtej1-lab.github.io/recap/)** Click
+*Try a sample lecture* and it runs end to end in about a minute. Source is on
+[GitHub](https://github.com/karanamtej1-lab/recap).
 
 ![Recap's start screen](recap-landing.jpg "Upload a file, record live, paste a transcript, or try the sample lecture")
 
@@ -21,12 +23,14 @@ You sit through an hour-long lecture once. Then, before the test, you either
 rewatch it or wish you had taken better notes. Recap takes the recording and
 gives you:
 
-- **Notes**: a TL;DR, key points with timestamps, notes organized by topic, key
+- **Notes**: a TL;DR, key points with timestamps, notes split into chapters, key
   terms, and any deadlines that were mentioned.
 - **A quiz** where every answer has a button that jumps to the moment it was taught.
+- **Flashcards** that tell you when to review them, and export to Anki.
 - **Ask**: type a question, get an answer with clickable timestamps.
 - **Clips**: the best 15 to 60 second moments, cut into vertical video with
-  word-by-word captions, ready to post.
+  word-by-word captions.
+- **A library**: every recap stays saved in your browser, video included.
 
 The project started from a set of open-source apps I was looking at: a
 screen copilot (cue), a voice dictation app (WhimprFlow), and a video clipper
@@ -38,9 +42,11 @@ you just heard.
 
 1. **Private by default.** The audio never leaves the computer. Speech-to-text
    runs inside the browser.
-2. **Works with no API key.** AI makes it better, but a missing key, an empty
-   balance, or an outage should never mean a blank screen.
-3. **Scores you can check.** A clip score is useless if you can't see why it
+2. **No server at all.** Everything runs in the tab, so it's hosted for free on
+   GitHub Pages and has nothing that can go down or cost money.
+3. **Works with no API key.** AI makes it better, but a missing key or an
+   outage should never mean a blank screen.
+4. **Scores you can check.** A clip score is useless if you can't see why it
    got that number.
 
 ## How it works
@@ -55,44 +61,76 @@ up on screen as they're recognized.
 
 ![Transcribing on-device, with words streaming in](recap-transcribing.jpg "Whisper running on the GPU, words streaming in live")
 
-Each word comes back with its own timestamp. I group words into sentences
-(splitting on punctuation and on pauses over a second). Those sentences are
-what the notes, search, and AI work from.
+### Notes without AI: two classic algorithms
 
-### Writing the recap
+With no key, Recap still writes real notes, using two well-known NLP algorithms
+I implemented from their papers:
 
-The timestamped transcript goes to a server route that tries **Claude**, then
-**Gemini**, then the **publik API**, depending on which key is set. If none is
-set, or the call fails, an offline analyzer I wrote takes over. It's plain text
-statistics: keyword density, cue phrases like "the key is" or "is due on", and
-two-word phrases that repeat. Repeated pairs like "spacing effect" and
-"retrieval practice" turned out to find the key terms far better than single
-words, which kept surfacing junk like "three" and "remember".
+- **TextRank** treats every sentence as a node and links sentences that share
+  important words (TF-IDF cosine similarity). Then it runs PageRank, the same
+  idea Google used to rank web pages. The sentences everything else "points
+  to" become the key points and the TL;DR.
+- **TextTiling** finds chapter breaks by comparing the vocabulary of the next
+  few sentences with the previous few. Where the overlap drops, the topic
+  changed. That only gets close, so I added one more step: speakers announce
+  topic changes out loud ("So here's…", "Now, …", "Let's…"), so each break
+  snaps to a nearby sentence that opens with one of those cues. On the sample
+  lecture, that moved the breaks from about 8 seconds off to within half a
+  second of the real section starts.
 
-![The finished recap: player, chapters, transcript, notes](recap-notes.jpg "Click any timestamp and the video jumps there")
+![The finished recap: player, chapters, transcript, notes](recap-notes.jpg "Chapters, transcript, and notes. Click any timestamp and the video jumps there")
+
+### Notes with AI, straight from the browser
+
+Recap has no server, so the AI request goes straight from your browser to
+**Claude** or **Gemini** using your own key. The key is saved only in your
+browser and sent only to that provider. Before building this, I checked which
+providers allow browser requests (CORS). Claude and Gemini do. The publik API
+doesn't, so I couldn't use it here.
+
+![The AI settings panel](recap-settings.jpg "Bring your own key. It never leaves your browser except to go to the provider")
+
+**Long lectures are split into parts.** A transcript over about 30 minutes is
+cut into parts, and 3 parts are analyzed at the same time. My code then merges
+the results: it picks the best clips by score, removes duplicate terms, and
+spreads the quiz questions across the whole lecture. Only the title and TL;DR
+need one more small AI call.
 
 I don't trust the model's numbers. Every timestamp it returns is snapped onto
 a real sentence in the transcript. Clips with impossible ranges are thrown
-out, and quiz questions whose answer index points nowhere are dropped. I
-tested this by pointing the app at a fake AI server that returned deliberately
-broken answers.
+out. Quiz questions whose answer index points nowhere are dropped.
 
 ### Scoring and cutting clips
 
 Each candidate clip gets four scores from 0 to 10: **hook** (would the first
 line stop a scroll), **insight**, **standalone** (does it make sense without
 the rest of the talk), and **energy**. The overall score is a weighted sum
-that my code calculates, never a number the model makes up, so every point
-traces back to a bar on screen.
+that my code calculates, never a number the model makes up.
 
 ![A scored clip with its breakdown and the 9:16 preview](recap-clips.jpg "Four visible sub-scores, a reason, and the live vertical preview with captions")
 
-The vertical video is drawn on a 720×1280 canvas. A hidden video element
-plays the clip, and every frame I draw the picture, a hook card on top, and the
-caption with the current word highlighted. "Fit" mode keeps the whole frame
-over a blurred copy of itself so slides stay readable. "Fill" crops to the
-center for a talking head. `MediaRecorder` records the canvas plus the audio
-and saves an MP4. Nothing gets uploaded.
+The vertical video is drawn on a 720×1280 canvas: the picture, a hook card on
+top, and the caption with the current word highlighted. "Fit" mode keeps whole
+slides readable over a blurred copy of themselves. `MediaRecorder` records the
+canvas plus the audio and saves an MP4. Nothing gets uploaded.
+
+### Flashcards and spaced review
+
+The sample lecture is about why spaced review beats cramming, so it felt wrong
+not to build it in. Key terms and quiz questions become flashcards. After each
+card you rate how well you knew it, and a small version of **SM-2**, the
+scheduling algorithm behind SuperMemo and early Anki, decides when you see it
+next. Cards you get right come back after 1 day, then 3, then 8, then about 26.
+Miss one and it comes back in a minute.
+
+![Reviewing a flashcard](recap-cards.jpg "Rate each card; the buttons show when you'll see it again")
+
+Everything is saved in **IndexedDB**, the browser's built-in database: the
+transcript, the recap, your review progress, and the original video file. So
+the library opens instantly without re-transcribing, and the home screen shows
+how many cards are due.
+
+![The library on the home screen](recap-library.jpg "Saved in this browser only, with cards due for review")
 
 ![The quiz, with each answer linked to the lecture](recap-quiz.jpg "Wrong or right, the explanation links to the exact moment")
 
@@ -104,31 +142,37 @@ time. I blamed Whisper's word timing and switched to phrase timing. The drift
 didn't change, which proved me wrong. The real cause was the sample file: I
 had joined the audio pieces in a way that left gaps between them. The video
 player plays those gaps as silence, but the browser's audio decoder skips
-them, so the decoded audio was 16 seconds shorter than the video. After I
-rebuilt the sample with continuous audio, I measured both timing modes against
-the real section boundaries. Word timing was within 0.4 seconds, so I went
-back to it. Lesson: when a fix doesn't change the symptom, the diagnosis is
-wrong.
+them, so the decoded audio was 16 seconds shorter than the video. Lesson: when
+a fix doesn't change the symptom, the diagnosis is wrong.
 
-**The library that wouldn't bundle.** transformers.js ships parts of its
-runtime that Next.js couldn't build. The fix was to load it from a CDN inside
-the worker at runtime instead of bundling it, which also made the page lighter.
+**Deploying was blocked, so I removed the server.** The first version had a
+small server for the AI calls, and I couldn't get permission to create the
+hosting project for it. Instead of waiting, I moved the AI calls into the
+browser with bring-your-own-key. Now Recap runs on free static hosting, and
+nobody else's key or money is involved.
 
-**The styles that vanished.** At one point the app loaded with no styling at
-all. Tailwind finds its source files relative to the folder the server is
-started from, not the folder its config file is in. Starting the server from a
-different folder quietly produced an empty stylesheet. Using absolute paths
-fixed it for good.
+**Chapter titles that came out wrong.** The intro of the sample lecture names
+all three topics, so it kept stealing the best chapter title. That left the
+real "spacing effect" chapter titled after the word "feels." The fix was to
+assign titles across all chapters at once: each phrase goes to the chapter
+that says it most often.
 
-**Speech recognition isn't perfect.** In the screenshots above, the small
-Whisper model heard "forgetting curve" as "forgetting curd" and "1880s" as
-"the 18th In 1980s". The bigger "Accurate" model makes fewer mistakes like
-that, but it's twice the download.
+**The library that wouldn't bundle, and styles that vanished.**
+transformers.js ships parts of its runtime that Next.js couldn't build, so the
+worker loads it from a CDN at runtime instead. And Tailwind looks for source
+files relative to the folder the server is started from, so starting it from
+another folder quietly produced an empty stylesheet. Absolute paths fixed it.
+
+**Speech recognition isn't perfect.** In the screenshots, the small Whisper
+model heard "forgetting curve" as "forgetting curd" and "1880s" as "the 18th In
+1980s." The "Accurate" model makes fewer mistakes like that, but it's twice the
+download.
 
 ## Status
 
-Working locally, source on
-**[GitHub](https://github.com/karanamtej1-lab/recap)**. The screenshots show the
-offline engine. The Claude, Gemini, and publik providers are built in and turn
-on when you add a key. Next step: deploy it, and send long lectures to the AI
-in chunks so the cost doesn't grow with every extra minute of recording.
+Live at
+**[karanamtej1-lab.github.io/recap](https://karanamtej1-lab.github.io/recap/)**.
+The screenshots show the offline engine. AI mode turns on when you paste a
+Claude or Gemini key. I tested it, including the split-into-parts path on a
+68-minute transcript, against a fake AI server that I ran locally. Next step:
+run it on a real hour-long lecture with a real key.
