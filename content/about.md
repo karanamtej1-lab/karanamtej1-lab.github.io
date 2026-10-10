@@ -17,6 +17,8 @@ Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
 - **[Recap](/projects/recap/)**: drop in a lecture or meeting and get notes,
   a quiz, timestamped answers, and vertical highlight clips. The transcript is
   made in the browser.
+- **[Food Calorie Detection](/projects/food-calorie-detection/)**: a desktop
+  app that finds food in a photo with YOLO and estimates the calories.
 - **[nanoGPT from Scratch](/projects/nanogpt/)**: a character-level GPT
   written by hand in PyTorch, trained to write fake Shakespeare.
 
