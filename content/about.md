@@ -17,6 +17,9 @@ Things I've built, all on [my GitHub](https://github.com/karanamtej1-lab):
 - **[Recap](/projects/recap/)**: drop in a lecture or meeting and get notes,
   a quiz, spaced-review flashcards, timestamped answers, and vertical clips,
   all in the browser. [Try it](https://karanamtej1-lab.github.io/recap/).
+- **[Plagiarism Checker](/projects/plagiarism-checker/)**: paste an essay and
+  it highlights every phrase copied from the web, with a link to the source.
+  [Try it](https://plagiarism-checker-nu-inky.vercel.app).
 - **[Food Calorie Detection](/projects/food-calorie-detection/)**: a desktop
   app that finds food in a photo with YOLO and estimates the calories.
 - **[nanoGPT from Scratch](/projects/nanogpt/)**: a character-level GPT
