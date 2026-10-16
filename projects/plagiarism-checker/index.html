@@ -1,0 +1,58 @@
+<!doctype html><html lang=en-us dir=ltr><head><meta charset=utf-8><meta name=viewport content="width=device-width"><link rel=icon type=image/ico href=https://karanamtej1-lab.github.io/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://karanamtej1-lab.github.io/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://karanamtej1-lab.github.io/favicon-32x32.png><link rel=icon type=image/png sizes=192x192 href=https://karanamtej1-lab.github.io/android-chrome-192x192.png><link rel=apple-touch-icon sizes=180x180 href=https://karanamtej1-lab.github.io/apple-touch-icon.png><meta name=description content><title>Plagiarism Checker | Tej Karanam</title><link rel=canonical href=https://karanamtej1-lab.github.io/projects/plagiarism-checker/><meta property="og:url" content="https://karanamtej1-lab.github.io/projects/plagiarism-checker/"><meta property="og:site_name" content="Tej Karanam"><meta property="og:title" content="Plagiarism Checker"><meta property="og:description" content="Paste an essay or upload a file. It searches the web for each passage and highlights every copied phrase with a link to where it came from."><meta property="og:locale" content="en_us"><meta property="og:type" content="article"><meta property="article:section" content="projects"><meta property="article:published_time" content="2026-10-15T00:00:00+00:00"><meta property="article:modified_time" content="2026-10-15T00:00:00+00:00"><meta property="article:tag" content="Javascript"><meta property="article:tag" content="Web"><meta property="article:tag" content="Nlp"><link rel=stylesheet href=/assets/combined.min.aa87ff9a6b4dadd5724b522549f17e977befd870bc47b2448639226cd23f5cf5.css media=all></head><body class=auto><div class=content><header><div class=header><h1 class=header-title><a href=https://karanamtej1-lab.github.io/>Tej Karanam</a></h1><div class=header-menu><p class=small><a href=/about>/about</a></p><p class=small><a href=/projects>/projects</a></p></div></div></header><main class=main><div class=breadcrumbs><a href=/>home</a><span class=breadcrumbs-separator>/</span><a href=/projects/>Projects</a><span class=breadcrumbs-separator>/</span>
+<a href=/projects/plagiarism-checker/>Plagiarism Checker</a></div><div><article><header class=single-intro-container><h1 class=single-title>Plagiarism Checker</h1><p class=single-summary>Paste an essay or upload a file. It searches the web for each passage and highlights every copied phrase with a link to where it came from.</p><div class=single-subsummary><div><p class=single-date><time datetime=2026-10-15T00:00:00+00:00>15 October 2026</time></p></div></div></header><div class=single-content><p><strong><a href=https://plagiarism-checker-nu-inky.vercel.app>Try the finished app →</a></strong>
+Paste a few paragraphs and click <em>Check for plagiarism</em>. A check takes about
+5 to 10 seconds. Source is on
+<a href=https://github.com/karanamtej1-lab/plagiarism-checker>GitHub</a>.</p><p><figure><div class=img-container style=--w:800;--h:520><img loading=lazy alt="The input screen" src=/projects/plagiarism-checker/pc-input.jpg width=800 height=520></div><div class=caption-container><figcaption>Paste text or upload a .txt, .docx or .pdf</figcaption></div></figure></p><h2 class=heading id=overview>Overview
+<a class=anchor href=#overview>#</a></h2><p>Turnitin costs money, and most students only see it after they&rsquo;ve already
+turned the paper in. I wanted a free checker that shows exactly which words
+match which page, not just a percentage.</p><p>It started as a rewrite of an open-source project,
+<a href=https://github.com/cu-sanjay/Free-Turnitin-Plagiarism-Checker>Free-Turnitin-Plagiarism-Checker</a>.
+I kept the idea and rebuilt the matching, the search, and the interface from
+scratch.</p><p>What you get:</p><ul><li><strong>A similarity score</strong>: the share of your words that match a source.</li><li><strong>Highlights</strong>: every copied phrase is colored by the source it came from.
+Click one to see all the text from that source.</li><li><strong>A source list</strong> with a link and a percentage for each page.</li><li><strong>File upload</strong> for .txt, .docx and .pdf.</li><li><strong>Quotes and references ignored</strong> by default, since quoting and citing is
+allowed.</li><li><strong>Your own sources</strong>: paste in a classmate&rsquo;s draft or a paywalled article to
+check against text a search engine can&rsquo;t reach.</li><li><strong>Save as PDF</strong> for a printable report.</li></ul><p><figure><div class=img-container style=--w:800;--h:520><img loading=lazy alt="A finished report" src=/projects/plagiarism-checker/pc-report.jpg width=800 height=520></div><div class=caption-container><figcaption>Two copied phrases from Wikipedia, highlighted and linked; the writer&rsquo;s own sentences stay clean</figcaption></div></figure></p><h2 class=heading id=how-it-works>How it works
+<a class=anchor href=#how-it-works>#</a></h2><h3 class=heading id=finding-sources>Finding sources
+<a class=anchor href=#finding-sources>#</a></h3><p>The essay is split into sentences. Up to 24 of them, spread across the whole
+document, become search queries. Each one goes to DuckDuckGo and to
+Wikipedia&rsquo;s search API. A page that comes back for several different
+sentences is probably the source, so pages are ranked by how many queries
+found them. The top 20 get downloaded in parallel and stripped down to plain
+text.</p><p>The server streams its progress back one line at a time, so the progress bar
+shows real work instead of a spinner.</p><p><figure><div class=img-container style=--w:800;--h:520><img loading=lazy alt="The progress screen" src=/projects/plagiarism-checker/pc-progress.jpg width=800 height=520></div><div class=caption-container><figcaption>Each stage reports live: searching, downloading, comparing</figcaption></div></figure></p><h3 class=heading id=matching-shingles-not-word-counts>Matching: shingles, not word counts
+<a class=anchor href=#matching-shingles-not-word-counts>#</a></h3><p>The original project compared each sentence against the whole web page by
+counting shared words (cosine similarity). That flags almost everything,
+because every English page shares &ldquo;the&rdquo;, &ldquo;and&rdquo;, and &ldquo;of&rdquo; with your essay.</p><p>I used <strong>shingles</strong> instead: every run of 5 words in a row. A word counts as
+copied only when it sits inside a 5-word run that also appears on the source
+page. Shingles made only of filler words (&ldquo;one of the most&rdquo;) are skipped.</p><p>That still flagged stock phrases like &ldquo;at the end of the day.&rdquo; So a match
+also has to run at least 8 words in a row before it counts. Turnitin has the
+same kind of setting, and you can change it in the app.</p><h3 class=heading id=giving-each-word-one-source>Giving each word one source
+<a class=anchor href=#giving-each-word-one-source>#</a></h3><p>When two pages contain the same passage, both match the same words. If I
+added up each source&rsquo;s matches, the total could go over 100%. So the source
+that covers the most words claims them first, and every later source only
+gets words nobody has claimed yet. The per-source percentages always add up
+to the overall score.</p><h2 class=heading id=what-broke-and-what-i-learned>What broke, and what I learned
+<a class=anchor href=#what-broke-and-what-i-learned>#</a></h2><p><strong>The search engines started blocking me.</strong> After a few test runs in a row,
+DuckDuckGo stopped returning results and sent a bot check instead. Wikipedia
+returned &ldquo;You are making too many requests,&rdquo; even though I wasn&rsquo;t. Wikipedia
+actually wanted a contact link in the request&rsquo;s User-Agent header; adding one
+fixed it. For DuckDuckGo, I added Bing as a backup. When DuckDuckGo blocks,
+the app switches to Bing for five minutes, then tries DuckDuckGo again.</p><p><strong>Deploying took four tries.</strong> The first deploy came up as a static site with
+no server, because Vercel only treats a file as an Express app if that file
+imports Express itself. Then Vercel blocked a deploy because the commit
+author&rsquo;s email wasn&rsquo;t linked to my account. Then PDF uploads worked on my
+laptop but failed online with &ldquo;bad XRef entry.&rdquo; I ran the same file on Node
+20, 22 and 24 and found the PDF library breaks on Node 24, which is what
+Vercel runs. I replaced it with a maintained library that works on all three.</p><p><strong>Testing caught a bad test.</strong> One unit test failed, and the bug was in the
+test: its sample essay was under the app&rsquo;s 15-word minimum. I fixed the test,
+not the app.</p><h2 class=heading id=status>Status
+<a class=anchor href=#status>#</a></h2><p>Live at
+<strong><a href=https://plagiarism-checker-nu-inky.vercel.app>plagiarism-checker-nu-inky.vercel.app</a></strong>,
+with 9 unit tests on the matching logic. It only finds sources that public
+search engines can reach, and it measures shared wording, so heavy
+paraphrasing gets through. A high score means &ldquo;look closer,&rdquo; not proof of
+cheating.</p></div><div class=project-stack><span class=project-stack-label>Stack</span><ul class=stack-tags><li>JavaScript</li><li>Node.js</li><li>Express</li><li>HTML / CSS</li><li>unpdf</li><li>mammoth</li><li>Vercel</li></ul></div><div class=project-links><a href=https://plagiarism-checker-nu-inky.vercel.app target=_blank rel="noopener noreferrer">Try the live app →</a>
+<a href=https://github.com/karanamtej1-lab/plagiarism-checker target=_blank rel="noopener noreferrer">Source on GitHub →</a></div></article><div class=single-pagination><hr><div class=flexnowrap><div class=single-pagination-prev><div class=single-pagination-container-prev><div class=single-pagination-text>←</div><div class=single-pagination-text><a href=/projects/food-calorie-detection/>Food Calorie Detection</a></div></div></div><div class=single-pagination-next></div></div><hr></div><div class=back-to-top><a href=#top>back to top</a></div></div></main></div><footer><p>Powered by
+<a href=https://gohugo.io/>Hugo</a>
+and
+<a href=https://github.com/tomfran/typo>tomfran/typo</a></p></footer></body><script defer src=/js/copy-code.js></script></html>
